@@ -19,17 +19,7 @@ submitted via Web3Forms.
 
 ---
 
-## Step 2 — Create the GitHub repo
-
-1. Go to **https://github.com/new**
-2. Set:
-   - **Repository name**: `ds598-feedback`
-   - **Visibility**: Public ← required for free GitHub Pages
-3. Click **Create repository** (do NOT initialize with README)
-
----
-
-## Step 3 — Generate the HTML files
+## Step 2 — Generate the HTML files
 
 Make sure Python 3 is installed, then from the project root:
 
@@ -41,21 +31,10 @@ This writes `ds598-feedback/team-1.html` … `team-12.html` plus `index.html`.
 
 ---
 
-## Step 4 — Push to GitHub Pages
+## Step 4 — Deploy to GitHub Pages
 
-```bash
-# Inside the ds598-feedback/ folder (the one with the HTML files)
-cd ds598-feedback
 
-git init
-git add .
-git commit -m "Add DS310 feedback forms"
-git branch -M main
-git remote add origin https://github.com/NathanC0926/ds598-feedback.git
-git push -u origin main
-```
-
-Then enable Pages:
+Enable Pages:
 
 1. Go to your repo → **Settings** → **Pages** (left sidebar)
 2. Under **Build and deployment → Source**, choose **Deploy from a branch**
