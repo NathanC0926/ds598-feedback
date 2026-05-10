@@ -129,6 +129,7 @@ def teammate_section(member: str, idx: int) -> str:
 
 
 def generate_html(team_num: int, members: list[str]) -> str:
+    
     # ── Respondent dropdown ───────────────────────────────────────────────────
     options_html = '<option value="" disabled selected>— Select your name —</option>\n'
     for m in members:
@@ -144,6 +145,25 @@ def generate_html(team_num: int, members: list[str]) -> str:
 
     # ── Full HTML ─────────────────────────────────────────────────────────────
     return f"""<!DOCTYPE html>
+    <!-- ── Identity Check ───────────────────────────────────────────── -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-num" style="background:var(--accent-dk)">✦</div>
+          <h2>Verify Your Identity</h2>
+        </div>
+        <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px;">
+          Please enter your BU ID before proceeding.
+        </p>
+
+        <div class="field-group">
+          <label for="bu_id">BU ID (e.g. U12345678) <span style="color:var(--accent)">*</span></label>
+          <input type="text" id="bu_id" name="bu_id" required
+                 pattern="[Uu]\\d{{8}}"
+                 placeholdesr="U12345678"
+                 style="width:100%;font-family:inherit;font-size:14px;border:1.5px solid var(--border);border-radius:6px;padding:9px 12px;background:#faf9f7;color:var(--text);" />
+          <p style="font-size:12px;color:var(--muted);margin-top:4px;">Format: U followed by 8 digits</p>
+        </div>
+      </div>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -518,7 +538,7 @@ def generate_html(team_num: int, members: list[str]) -> str:
 def main():
     import os
     teams = parse_teams()
-    out_dir = ".."
+    out_dir = Path(__file__).parent.parent
     os.makedirs(out_dir, exist_ok=True)
 
     print("Generating HTML files…\n")

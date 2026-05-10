@@ -1,4 +1,23 @@
 <!DOCTYPE html>
+    <!-- ── Identity Check ───────────────────────────────────────────── -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-num" style="background:var(--accent-dk)">✦</div>
+          <h2>Verify Your Identity</h2>
+        </div>
+        <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px;">
+          Please enter your BU ID before proceeding.
+        </p>
+
+        <div class="field-group">
+          <label for="bu_id">BU ID (e.g. U12345678) <span style="color:var(--accent)">*</span></label>
+          <input type="text" id="bu_id" name="bu_id" required
+                 pattern="[Uu]\d{8}"
+                 placeholdesr="U12345678"
+                 style="width:100%;font-family:inherit;font-size:14px;border:1.5px solid var(--border);border-radius:6px;padding:9px 12px;background:#faf9f7;color:var(--text);" />
+          <p style="font-size:12px;color:var(--muted);margin-top:4px;">Format: U followed by 8 digits</p>
+        </div>
+      </div>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -242,7 +261,7 @@
           method="POST">
 
       <!-- Web3Forms hidden fields -->
-      <input type="hidden" name="access_key" value="52b117af-895d-4124-b64a-3061659996db" />
+      <input type="hidden" name="access_key" value="None" />
       <input type="hidden" name="subject"    value="DS598 Team 3 Feedback Submission" />
       <input type="hidden" name="from_name"  value="DS598 Feedback Form" />
       <input type="hidden" name="redirect"   value="" />
