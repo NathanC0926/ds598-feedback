@@ -517,41 +517,29 @@ def generate_html(team_num: int, members: list[str]) -> str:
 
 def main():
     import os
-    import secrets
-
     teams = parse_teams()
     out_dir = ".."
     os.makedirs(out_dir, exist_ok=True)
 
     print("Generating HTML files…\n")
-    base = "https://nathanc0926.github.io/ds598-feedback"
-    team_tokens = {}
-
     for team_num, members in teams.items():
-        token = secrets.token_urlsafe(12)
-        team_tokens[team_num] = token
         html = generate_html(team_num, members)
-        path = os.path.join(out_dir, f"{token}.html")
+        path = os.path.join(out_dir, f"team-{team_num}.html")
         with open(path, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"  ✓ team-{team_num}.html  ({len(members)} members: {', '.join(members)})")
 
-    # Save token mapping so you don't lose it
-    with open("tokens.csv", "w") as f:
-        f.write("team,url\n")
-        for t, tok in team_tokens.items():
-            f.write(f"{t},{base}/{tok}.html\n")
-
-    # index.html redirects to team-1's token
-    index = f"""<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url={team_tokens[1]}.html"></head>
+    # Also write a minimal index.html redirect to team-1 so the root doesn't 404
+    index = """<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=team-1.html"></head>
 <body><p>Redirecting…</p></body></html>\n"""
     with open(os.path.join(out_dir, "index.html"), "w") as f:
         f.write(index)
 
     print(f"\nDone — {len(teams)} files written to ./{out_dir}/")
     print("\n── Final URLs ──────────────────────────────────────────")
-    for t, tok in team_tokens.items():
-        print(f"  Team {t:>2}: {base}/{tok}.html")
+    base = "https://nathanc0926.github.io/ds598-feedback"
+    for t in teams:
+        print(f"  Team {t:>2}: {base}/team-{t}.html")
     print()
 
 
