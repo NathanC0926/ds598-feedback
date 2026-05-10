@@ -1,6 +1,6 @@
-# DS310 Feedback Forms — Deployment Guide
+# DS598 Feedback Forms — Deployment Guide
 
-Static HTML feedback forms for all 12 DS310 teams, hosted on GitHub Pages and
+Static HTML feedback forms for all 12 DS598 teams, hosted on GitHub Pages and
 submitted via Web3Forms.
 
 ---
@@ -76,6 +76,6 @@ within a minute.
 
 - **Duplicate submissions** are not blocked — acceptable per spec.
 - **Team number** is sent as a hidden field (`team_number`) in every submission,
-  so you can filter emails by subject line ("DS310 Team N Feedback Submission").
+  so you can filter emails by subject line ("DS598 Team N Feedback Submission").
 - Re-running `generate_forms.py` overwrites all files; safe to do at any time.
 - Web3Forms free tier allows 250 submissions/month — more than enough for 50 students.
