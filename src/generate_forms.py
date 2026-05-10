@@ -438,7 +438,7 @@ def generate_html(team_num: int, members: list[str]) -> str:
           <h2>Teammate Evaluations</h2>
         </div>
         <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px;">
-          Rate each of your teammates below. Skip anyone who is you (you rated yourself above).
+          Rate each of your teammates below. Yes, rate yourself and your teammates on the following:
         </p>
         {teammate_blocks}
       </div>
