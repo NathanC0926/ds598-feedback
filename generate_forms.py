@@ -5,14 +5,31 @@ Generates 12 static HTML pages (one per team) for GitHub Pages + Web3Forms.
 """
 
 import csv
+import io
+import os
 from collections import defaultdict
+from pathlib import Path
+
+# ── Load .env (no external dependencies required) ────────────────────────────
+def _load_env(path=".env"):
+    env_path = Path(path)
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, _, val = line.partition("=")
+                os.environ.setdefault(key.strip(), val.strip())
+
+_load_env()
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY"   # ← replace after signup
-RESPONSE_EMAIL       = "nc0926@bu.edu"
+WEB3FORMS_ACCESS_KEY = os.environ.get("WEB3FORMS_ACCESS_KEY")
+RESPONSE_EMAIL       = os.environ.get("RESPONSE_EMAIL")
 GITHUB_PAGES_BASE    = "https://nathanc0926.github.io/ds598-feedback"
-# ──────────────────────────────────────────────────────────────────────────────
 
+if WEB3FORMS_ACCESS_KEY == "YOUR_WEB3FORMS_ACCESS_KEY":
+    print("⚠️  Warning: WEB3FORMS_ACCESS_KEY not set in .env — forms will not submit!")
+# ──────────────────────────────────────────────────────────────────────────────
 
 RATING_OPTIONS = ["Poor", "Not Great", "Ok", "Good", "Excellent"]
 
@@ -25,7 +42,7 @@ SELF_RATINGS = [
     ("team_quality",   "Overall, the team completes tasks on time and produces high quality work."),
     ("team_climate",   "Overall, the team has built a positive team climate. Teammates cooperate and treat everyone with respect."),
     ("self_exp",       "How would you rate your experience this semester with the project?"),
-    ("recommend",      "Although a required course, how likely are you to recommend DS310 to a classmate or peer?"),
+    ("recommend",      "Although a required course, how likely are you to recommend DS598 to a classmate or peer?"),
 ]
 
 TEAMMATE_RATINGS = [
@@ -131,7 +148,7 @@ def generate_html(team_num: int, members: list[str]) -> str:
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DS310 Team {team_num} — End-of-Semester Feedback</title>
+  <title>DS598 Team {team_num} — End-of-Semester Feedback</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -358,7 +375,7 @@ def generate_html(team_num: int, members: list[str]) -> str:
 
   <!-- Header -->
   <header class="page-header">
-    <div class="course-tag">DS310 · Team {team_num}</div>
+    <div class="course-tag">DS598 · Team {team_num}</div>
     <h1>End-of-Semester Feedback</h1>
     <p>Your responses are confidential and help us improve the course experience.</p>
   </header>
@@ -371,8 +388,8 @@ def generate_html(team_num: int, members: list[str]) -> str:
 
       <!-- Web3Forms hidden fields -->
       <input type="hidden" name="access_key" value="{WEB3FORMS_ACCESS_KEY}" />
-      <input type="hidden" name="subject"    value="DS310 Team {team_num} Feedback Submission" />
-      <input type="hidden" name="from_name"  value="DS310 Feedback Form" />
+      <input type="hidden" name="subject"    value="DS598 Team {team_num} Feedback Submission" />
+      <input type="hidden" name="from_name"  value="DS598 Feedback Form" />
       <input type="hidden" name="redirect"   value="" />
       <input type="hidden" name="team_number" value="{team_num}" />
       <input type="hidden" name="botcheck"   value="" style="display:none" />

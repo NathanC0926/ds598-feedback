@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS598 Team 8 — End-of-Semester Feedback</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Variables ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f7f5f0;
+      --surface:   #ffffff;
+      --border:    #e2ddd6;
+      --accent:    #c0392b;
+      --accent-dk: #962d22;
+      --text:      #1a1714;
+      --muted:     #6b6560;
+      --radius:    10px;
+      --shadow:    0 2px 12px rgba(0,0,0,.07);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 16px 80px;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────────────── */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .course-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 40px;
+      margin-bottom: 18px;
+    }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.15;
+      color: var(--text);
+    }
+    .page-header p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ── Card / Section ──────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 36px;
+      margin-bottom: 28px;
+    }
+    @media(max-width:600px) {
+      .card { padding: 20px 16px; }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-num {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    /* ── Respondent dropdown ─────────────────────────────────────────── */
+    .field-group {
+      margin-bottom: 20px;
+    }
+    .field-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    select, textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 9px 12px;
+      background: #faf9f7;
+      color: var(--text);
+      transition: border-color .15s;
+    }
+    select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    textarea { resize: vertical; }
+
+    /* ── Rating Matrix ───────────────────────────────────────────────── */
+    .matrix-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 24px;
+    }
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .matrix thead th {
+      background: #f3ede6;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .matrix th.q-col { width: 52%; text-align: left; }
+    .matrix td, .matrix th {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+    }
+    .matrix tbody tr:nth-child(odd) { background: #faf9f7; }
+    .matrix tbody tr:hover { background: #f3ede6; transition: background .1s; }
+    .q-label { text-align: left; line-height: 1.45; }
+    .radio-cell { text-align: center; }
+    .radio-cell input[type=radio] {
+      width: 17px; height: 17px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .opt-label { text-align: center; min-width: 72px; }
+
+    /* ── Teammate blocks ─────────────────────────────────────────────── */
+    .teammate-block {
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .teammate-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .teammate-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      margin-bottom: 14px;
+      color: var(--accent-dk);
+    }
+
+    /* ── Submit button ───────────────────────────────────────────────── */
+    .submit-area {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-submit {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 52px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: .02em;
+      transition: background .15s, transform .1s;
+    }
+    .btn-submit:hover  { background: var(--accent-dk); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .submit-note {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── Thank-you page ──────────────────────────────────────────────── */
+    .thankyou {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .thankyou h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      margin-bottom: 14px;
+      color: var(--accent);
+    }
+    .thankyou p { color: var(--muted); font-size: 15px; }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="course-tag">DS598 · Team 8</div>
+    <h1>End-of-Semester Feedback</h1>
+    <p>Your responses are confidential and help us improve the course experience.</p>
+  </header>
+
+  <!-- Form -->
+  <div id="form-container">
+    <form id="feedback-form"
+          action="https://api.web3forms.com/submit"
+          method="POST">
+
+      <!-- Web3Forms hidden fields -->
+      <input type="hidden" name="access_key" value="52b117af-895d-4124-b64a-3061659996db" />
+      <input type="hidden" name="subject"    value="DS598 Team 8 Feedback Submission" />
+      <input type="hidden" name="from_name"  value="DS598 Feedback Form" />
+      <input type="hidden" name="redirect"   value="" />
+      <input type="hidden" name="team_number" value="8" />
+      <input type="hidden" name="botcheck"   value="" style="display:none" />
+
+      <!-- ── Section 1: Self & Team Ratings ──────────────────────────── -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-num">1</div>
+          <h2>Self &amp; Team Ratings</h2>
+        </div>
+
+        <div class="field-group">
+          <label for="respondent">Who are you? <span style="color:var(--accent)">*</span></label>
+          <select id="respondent" name="respondent" required>
+            <option value="" disabled selected>— Select your name —</option>
+        <option value="Sam Gibson">Sam Gibson</option>
+        <option value="Jiaxi LI">Jiaxi LI</option>
+        <option value="Alexander Shah">Alexander Shah</option>
+        <option value="Aijia Zhang">Aijia Zhang</option>
+
+          </select>
+        </div>
+
+        
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="q-col"></th>
+            <th class="opt-label">Poor</th><th class="opt-label">Not Great</th><th class="opt-label">Ok</th><th class="opt-label">Good</th><th class="opt-label">Excellent</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="q-label">I attend team meetings regularly and on time. I arrive prepared to contribute.</td>
+          <td class="radio-cell"><input type="radio" name="s1_self_attend" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_self_attend" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_self_attend" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_self_attend" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_self_attend" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">I help build a positive team environment by being cooperative, treating my team with respect, and providing assistance and/or encouragement.</td>
+          <td class="radio-cell"><input type="radio" name="s1_self_positive" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_self_positive" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_self_positive" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_self_positive" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_self_positive" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">I complete all assigned tasks by the deadline. My work is thorough, comprehensive, and advances the project.</td>
+          <td class="radio-cell"><input type="radio" name="s1_self_tasks" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_self_tasks" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_self_tasks" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_self_tasks" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_self_tasks" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Overall, the team is engaged during meetings. The team arrives prepared to contribute.</td>
+          <td class="radio-cell"><input type="radio" name="s1_team_engaged" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_team_engaged" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_team_engaged" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_team_engaged" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_team_engaged" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Overall, the team responds to communications in a timely manner and all communications are polite and constructive.</td>
+          <td class="radio-cell"><input type="radio" name="s1_team_comms" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_team_comms" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_team_comms" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_team_comms" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_team_comms" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Overall, the team completes tasks on time and produces high quality work.</td>
+          <td class="radio-cell"><input type="radio" name="s1_team_quality" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_team_quality" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_team_quality" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_team_quality" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_team_quality" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Overall, the team has built a positive team climate. Teammates cooperate and treat everyone with respect.</td>
+          <td class="radio-cell"><input type="radio" name="s1_team_climate" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_team_climate" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_team_climate" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_team_climate" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_team_climate" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">How would you rate your experience this semester with the project?</td>
+          <td class="radio-cell"><input type="radio" name="s1_self_exp" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_self_exp" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_self_exp" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_self_exp" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_self_exp" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Although a required course, how likely are you to recommend DS598 to a classmate or peer?</td>
+          <td class="radio-cell"><input type="radio" name="s1_recommend" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s1_recommend" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s1_recommend" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s1_recommend" value="Good" required></td><td class="radio-cell"><input type="radio" name="s1_recommend" value="Excellent" required></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+      </div>
+
+      <!-- ── Section 2: Teammate Evaluations ─────────────────────────── -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-num">2</div>
+          <h2>Teammate Evaluations</h2>
+        </div>
+        <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px;">
+          Rate each of your teammates below. Skip anyone who is you (you rated yourself above).
+        </p>
+        
+    <div class="teammate-block">
+      <h3 class="teammate-name">Sam Gibson</h3>
+      
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="q-col"></th>
+            <th class="opt-label">Poor</th><th class="opt-label">Not Great</th><th class="opt-label">Ok</th><th class="opt-label">Good</th><th class="opt-label">Excellent</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="q-label">Attends team meetings regularly and on time. They arrive prepared to contribute.</td>
+          <td class="radio-cell"><input type="radio" name="tm1_tm1_attend" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_attend" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_attend" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_attend" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_attend" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Responds to communications in a timely manner and their communications are polite and constructive.</td>
+          <td class="radio-cell"><input type="radio" name="tm1_tm1_comms" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_comms" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_comms" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_comms" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_comms" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Helps build a positive team environment by being cooperative, treating their team with respect, and providing assistance and/or encouragement.</td>
+          <td class="radio-cell"><input type="radio" name="tm1_tm1_positive" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_positive" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_positive" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_positive" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_positive" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Completes all assigned tasks by the deadline. Their work is thorough, comprehensive, and advances the project.</td>
+          <td class="radio-cell"><input type="radio" name="tm1_tm1_tasks" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_tasks" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_tasks" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_tasks" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm1_tm1_tasks" value="Excellent" required></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="field-group">
+        <label for="tm1_comments">Any additional comments about Sam Gibson?</label>
+        <textarea id="tm1_comments" name="tm1_comments" rows="3"
+                  placeholder="Optional — share anything else about Sam Gibson's contribution…"></textarea>
+      </div>
+    </div>
+    <div class="teammate-block">
+      <h3 class="teammate-name">Jiaxi LI</h3>
+      
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="q-col"></th>
+            <th class="opt-label">Poor</th><th class="opt-label">Not Great</th><th class="opt-label">Ok</th><th class="opt-label">Good</th><th class="opt-label">Excellent</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="q-label">Attends team meetings regularly and on time. They arrive prepared to contribute.</td>
+          <td class="radio-cell"><input type="radio" name="tm2_tm2_attend" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_attend" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_attend" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_attend" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_attend" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Responds to communications in a timely manner and their communications are polite and constructive.</td>
+          <td class="radio-cell"><input type="radio" name="tm2_tm2_comms" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_comms" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_comms" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_comms" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_comms" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Helps build a positive team environment by being cooperative, treating their team with respect, and providing assistance and/or encouragement.</td>
+          <td class="radio-cell"><input type="radio" name="tm2_tm2_positive" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_positive" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_positive" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_positive" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_positive" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Completes all assigned tasks by the deadline. Their work is thorough, comprehensive, and advances the project.</td>
+          <td class="radio-cell"><input type="radio" name="tm2_tm2_tasks" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_tasks" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_tasks" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_tasks" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm2_tm2_tasks" value="Excellent" required></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="field-group">
+        <label for="tm2_comments">Any additional comments about Jiaxi LI?</label>
+        <textarea id="tm2_comments" name="tm2_comments" rows="3"
+                  placeholder="Optional — share anything else about Jiaxi LI's contribution…"></textarea>
+      </div>
+    </div>
+    <div class="teammate-block">
+      <h3 class="teammate-name">Alexander Shah</h3>
+      
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="q-col"></th>
+            <th class="opt-label">Poor</th><th class="opt-label">Not Great</th><th class="opt-label">Ok</th><th class="opt-label">Good</th><th class="opt-label">Excellent</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="q-label">Attends team meetings regularly and on time. They arrive prepared to contribute.</td>
+          <td class="radio-cell"><input type="radio" name="tm3_tm3_attend" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_attend" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_attend" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_attend" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_attend" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Responds to communications in a timely manner and their communications are polite and constructive.</td>
+          <td class="radio-cell"><input type="radio" name="tm3_tm3_comms" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_comms" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_comms" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_comms" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_comms" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Helps build a positive team environment by being cooperative, treating their team with respect, and providing assistance and/or encouragement.</td>
+          <td class="radio-cell"><input type="radio" name="tm3_tm3_positive" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_positive" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_positive" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_positive" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_positive" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Completes all assigned tasks by the deadline. Their work is thorough, comprehensive, and advances the project.</td>
+          <td class="radio-cell"><input type="radio" name="tm3_tm3_tasks" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_tasks" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_tasks" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_tasks" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm3_tm3_tasks" value="Excellent" required></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="field-group">
+        <label for="tm3_comments">Any additional comments about Alexander Shah?</label>
+        <textarea id="tm3_comments" name="tm3_comments" rows="3"
+                  placeholder="Optional — share anything else about Alexander Shah's contribution…"></textarea>
+      </div>
+    </div>
+    <div class="teammate-block">
+      <h3 class="teammate-name">Aijia Zhang</h3>
+      
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="q-col"></th>
+            <th class="opt-label">Poor</th><th class="opt-label">Not Great</th><th class="opt-label">Ok</th><th class="opt-label">Good</th><th class="opt-label">Excellent</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="q-label">Attends team meetings regularly and on time. They arrive prepared to contribute.</td>
+          <td class="radio-cell"><input type="radio" name="tm4_tm4_attend" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_attend" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_attend" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_attend" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_attend" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Responds to communications in a timely manner and their communications are polite and constructive.</td>
+          <td class="radio-cell"><input type="radio" name="tm4_tm4_comms" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_comms" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_comms" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_comms" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_comms" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Helps build a positive team environment by being cooperative, treating their team with respect, and providing assistance and/or encouragement.</td>
+          <td class="radio-cell"><input type="radio" name="tm4_tm4_positive" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_positive" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_positive" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_positive" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_positive" value="Excellent" required></td>
+        </tr>
+        <tr>
+          <td class="q-label">Completes all assigned tasks by the deadline. Their work is thorough, comprehensive, and advances the project.</td>
+          <td class="radio-cell"><input type="radio" name="tm4_tm4_tasks" value="Poor" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_tasks" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_tasks" value="Ok" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_tasks" value="Good" required></td><td class="radio-cell"><input type="radio" name="tm4_tm4_tasks" value="Excellent" required></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="field-group">
+        <label for="tm4_comments">Any additional comments about Aijia Zhang?</label>
+        <textarea id="tm4_comments" name="tm4_comments" rows="3"
+                  placeholder="Optional — share anything else about Aijia Zhang's contribution…"></textarea>
+      </div>
+    </div>
+      </div>
+
+      <!-- ── Section 3: Project Experience ───────────────────────────── -->
+      <div class="card">
+        <div class="section-header">
+          <div class="section-num">3</div>
+          <h2>Project Experience</h2>
+        </div>
+
+        <div class="field-group">
+          <label for="successes">What successes has your team had? What went well? <span style="color:var(--accent)">*</span></label>
+          <textarea id="successes" name="successes" rows="4" required
+                    placeholder="Describe your team's wins and high points…"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="challenges">What has been the biggest challenge for your team or with the project? <span style="color:var(--accent)">*</span></label>
+          <textarea id="challenges" name="challenges" rows="4" required
+                    placeholder="Be honest — this helps us improve the course…"></textarea>
+        </div>
+
+        
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="q-col"></th>
+            <th class="opt-label">Poor</th><th class="opt-label">Not Great</th><th class="opt-label">Ok</th><th class="opt-label">Good</th><th class="opt-label">Excellent</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="q-label">How would you rate your experience this semester?</td>
+          <td class="radio-cell"><input type="radio" name="s3_exp" value="Poor" required></td><td class="radio-cell"><input type="radio" name="s3_exp" value="Not Great" required></td><td class="radio-cell"><input type="radio" name="s3_exp" value="Ok" required></td><td class="radio-cell"><input type="radio" name="s3_exp" value="Good" required></td><td class="radio-cell"><input type="radio" name="s3_exp" value="Excellent" required></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+        <!-- Prof / TA feedback -->
+        <div class="field-group"><label for="prof_well">What's one thing Professor Seferlis did really well? <span style="color:var(--accent)">*</span></label><textarea id="prof_well" name="prof_well" rows="3" required placeholder="Something specific that helped you…"></textarea></div><div class="field-group"><label for="prof_better">What's one thing Professor Seferlis could do better? <span style="color:var(--accent)">*</span></label><textarea id="prof_better" name="prof_better" rows="3" required placeholder="Constructive suggestion…"></textarea></div><div class="field-group"><label for="ta1_well">What's one thing Nathan Chang did really well? <span style="color:var(--accent)">*</span></label><textarea id="ta1_well" name="ta1_well" rows="3" required placeholder="Something specific that helped you…"></textarea></div><div class="field-group"><label for="ta1_better">What's one thing Nathan Chang could do better? <span style="color:var(--accent)">*</span></label><textarea id="ta1_better" name="ta1_better" rows="3" required placeholder="Constructive suggestion…"></textarea></div><div class="field-group"><label for="ta2_well">What's one thing Zihao Guo did really well? <span style="color:var(--accent)">*</span></label><textarea id="ta2_well" name="ta2_well" rows="3" required placeholder="Something specific that helped you…"></textarea></div><div class="field-group"><label for="ta2_better">What's one thing Zihao Guo could do better? <span style="color:var(--accent)">*</span></label><textarea id="ta2_better" name="ta2_better" rows="3" required placeholder="Constructive suggestion…"></textarea></div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-area">
+        <button type="submit" class="btn-submit" id="submit-btn">Submit Feedback</button>
+        <p class="submit-note">All fields marked <span style="color:var(--accent)">*</span> are required.</p>
+      </div>
+
+    </form>
+  </div><!-- /#form-container -->
+
+  <!-- Thank-you message (shown after submission) -->
+  <div class="thankyou" id="thankyou">
+    <h2>Thank you!</h2>
+    <p>Your feedback has been submitted successfully.<br>
+       We appreciate you taking the time to share your thoughts.</p>
+  </div>
+
+</div><!-- /.page-wrap -->
+
+<script>
+  document.getElementById('feedback-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn  = document.getElementById('submit-btn');
+    const form = this;
+
+    btn.textContent = 'Submitting…';
+    btn.disabled    = true;
+
+    try {
+      const resp = await fetch(form.action, {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        document.getElementById('form-container').style.display = 'none';
+        document.getElementById('thankyou').style.display       = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        alert('Submission failed. Please check your connection and try again.');
+        btn.textContent = 'Submit Feedback';
+        btn.disabled    = false;
+      }
+    } catch(err) {
+      alert('Network error. Please try again.');
+      btn.textContent = 'Submit Feedback';
+      btn.disabled    = false;
+    }
+  });
+</script>
+</body>
+</html>
